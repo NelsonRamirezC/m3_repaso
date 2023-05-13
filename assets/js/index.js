@@ -2,6 +2,20 @@ function Pokedex() {
     this.pokemones = [];
 }
 
+Pokedex.prototype.agregarPokemon = function (pokemon) {
+    let pokemonBuscado = this.pokemones.find(
+        (elementPokemon) => elementPokemon.pokedex == pokemon.pokedex
+    );
+    if (pokemonBuscado) {
+        alert("pokemon ya existe en registro.");
+    } else {
+        this.pokemones.push(pokemon);
+    }
+};
+
+let miPokedex = new Pokedex();
+let currentPokemon;
+
 function Pokemon(pokedex, nombre, peso, imagen) {
     this.pokedex = pokedex;
     this.nombre = nombre;
@@ -19,6 +33,7 @@ async function getPokemon(id) {
             let image = sprites.other["official-artwork"].front_default;
 
             let nuevoPokemon = new Pokemon(id, name, weight, image);
+            currentPokemon = nuevoPokemon;
             cargarCard(nuevoPokemon);
 
             //console.log(pokemon);
@@ -44,3 +59,11 @@ function cargarCard(pokemon) {
     imagenPokemon.setAttribute("src", pokemon.imagen);
     imagenPokemon.setAttribute("alt", pokemon.nombre);
 }
+
+btnAgregarPokemon.addEventListener("click", function (event) {
+    if (currentPokemon) {
+        miPokedex.agregarPokemon(currentPokemon);
+    } else {
+        alert("No existe un pokémon para agregar.");
+    }
+});
