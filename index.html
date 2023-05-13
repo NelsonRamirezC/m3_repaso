@@ -25,20 +25,37 @@
                 <div class="col-12 col-md-6">
                     <form id="formPokemon">
                         <label for="idPokemon" class="form-label">ID / Nombre</label>
-                        <input type="text" class="form-control my-2" name="idPokemon" id="idPokemon">
+                        <input type="text" class="form-control my-2" name="idPokemon" id="idPokemon" required>
                         <div class="d-flex justify-content-center">
                             <input type="submit" class="form-control btn btn-primary w-25" value="Buscar">
                         </div>
-
                     </form>
                 </div>
-
             </div>
         </section>
+        <section class="py-5">
+            <h3 class="text-center">Información del pokémon</h3>
 
+            <section>
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-6 col-lg-4 py-3">
+                        <div class="card mx-auto" style="width: 90%;">
+                            <img id="imagenPokemon" src="./assets/img/default_img.jpg" class="card-img-top"
+                                alt="pokemon">
+                            <div class="card-body">
+                                <h5 class="card-title">Nombre: <span id="nombrePokemon"></span></h5>
+                                <p class="card-text">Peso: <span id="pesoPokemon"></span> </p>
+                                <div class="d-flex justify-content-center">
+                                    <a href="#" class="btn btn-primary">Agregar a mi pokédex</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
     </main>
-
-
 </body>
 
 </html>
