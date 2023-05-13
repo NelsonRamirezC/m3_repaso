@@ -13,6 +13,22 @@ Pokedex.prototype.agregarPokemon = function (pokemon) {
     }
 };
 
+Pokedex.prototype.eliminarPokemon = function (numeroPokedex) {
+    let pokemon = this.pokemones.find((elementPokemon, index) => {
+        if (elementPokemon.pokedex == numeroPokedex) {
+            elementPokemon.indice = index;
+            return elementPokemon;
+        }
+    });
+
+    if (pokemon) {
+        this.pokemones.splice(pokemon.index, 1);
+        return true;
+    } else {
+        return false;
+    }
+};
+
 let miPokedex = new Pokedex();
 let currentPokemon;
 
@@ -63,7 +79,40 @@ function cargarCard(pokemon) {
 btnAgregarPokemon.addEventListener("click", function (event) {
     if (currentPokemon) {
         miPokedex.agregarPokemon(currentPokemon);
+        cargarTabla(miPokedex.pokemones);
     } else {
         alert("No existe un pokémon para agregar.");
+    }
+});
+
+function cargarTabla(arrayPokemones) {
+    try {
+        let filas = "";
+        arrayPokemones.forEach((pokemon) => {
+            filas += `
+                <tr>
+                    <th scope="row">${pokemon.pokedex}</th>
+                    <td><img src="${pokemon.imagen}" alt="${pokemon.nombre}" style="width:100px;"></td>
+                    <td>${pokemon.nombre}</td>
+                    <td>${pokemon.peso}</td>
+                    <td><button class="btn btn-danger deleteButtons" data-pokedex="${pokemon.pokedex}">Eliminar</button></td>
+                </tr>
+            `;
+        });
+        cuerpoTablaPokemones.innerHTML = filas;
+    } catch (error) {
+        alert("Error al cargar la tabla.");
+    }
+}
+
+$("#cuerpoTablaPokemones").on("click", ".deleteButtons", function (event) {
+    let boton = event.target;
+    let numeroPokedex = boton.dataset.pokedex;
+    let resultado = miPokedex.eliminarPokemon(numeroPokedex);
+    if (resultado) {
+        alert("Pokémon eliminado con éxito");
+        cargarTabla(miPokedex.pokemones);
+    } else {
+        alert("Pokémon no se pudo eliminar.");
     }
 });
