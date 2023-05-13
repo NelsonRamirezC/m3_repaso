@@ -2,12 +2,18 @@ function Pokedex() {
     this.pokemones = [];
 }
 
+Pokedex.prototype.pokemonesOrdenados = function () {
+    return this.pokemones.sort(function (a, b) {
+        return a.pokedex - b.pokedex;
+    });
+};
+
 Pokedex.prototype.agregarPokemon = function (pokemon) {
     let pokemonBuscado = this.pokemones.find(
         (elementPokemon) => elementPokemon.pokedex == pokemon.pokedex
     );
     if (pokemonBuscado) {
-        alert("pokemon ya existe en registro.");
+        return false;
     } else {
         this.pokemones.push(pokemon);
     }
@@ -27,6 +33,10 @@ Pokedex.prototype.eliminarPokemon = function (numeroPokedex) {
     } else {
         return false;
     }
+};
+
+Pokedex.prototype.filtrarPokemones = function (nombre) {
+    return this.pokemones.filter((pokemon) => pokemon.nombre.includes(nombre));
 };
 
 let miPokedex = new Pokedex();
@@ -78,8 +88,14 @@ function cargarCard(pokemon) {
 
 btnAgregarPokemon.addEventListener("click", function (event) {
     if (currentPokemon) {
-        miPokedex.agregarPokemon(currentPokemon);
-        cargarTabla(miPokedex.pokemones);
+        let resultado = miPokedex.agregarPokemon(currentPokemon);
+
+        if (resultado == false) {
+            alert("Pokémon ya se encuentra en la lista.");
+        } else {
+            alert("Pokémon agregado con éxito.");
+            cargarTabla(miPokedex.pokemonesOrdenados());
+        }
     } else {
         alert("No existe un pokémon para agregar.");
     }
@@ -115,4 +131,9 @@ $("#cuerpoTablaPokemones").on("click", ".deleteButtons", function (event) {
     } else {
         alert("Pokémon no se pudo eliminar.");
     }
+});
+
+searchNombrePokemon.addEventListener("keyup", function () {
+    let elementos = miPokedex.filtrarPokemones(searchNombrePokemon.value);
+    cargarTabla(elementos);
 });
